@@ -95,10 +95,6 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: {{ .Values.todoapp.deployment.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.weight }}
-            preference:
-              matchExpressions:
-              - key: {{ .Values.todoapp.deployment.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.key }}
-                operator: {{ .Values.todoapp.deployment.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.operator }}
-                values:
-                - {{ .Values.todoapp.deployment.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.values }}
+          {{ range .Values.todoapp.deployment.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution }}
+          {{ .weight }}
+          {{ end }}
