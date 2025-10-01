@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{ .Chart.Name }}-deployment
   namespace: {{ .Values.common.namespace }}
 spec:
   strategy:
@@ -95,6 +95,16 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          {{ range .Values.todoapp.deployment.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution }}
-          {{ .weight }}
-          {{ end }}
+          {{- range .Values.todoapp.deployment.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution }}
+            - weight: {{ .weight }}
+              preference:
+                matchExpressions:
+                {{- range .preference.matchExpressions }}
+                  - key: {{ .key }}
+                    operator: {{ .operator }}
+                    values:
+                    {{- range .values }}
+                      - {{ . }}
+                    {{- end }}
+                {{- end }}
+          {{- end }}
