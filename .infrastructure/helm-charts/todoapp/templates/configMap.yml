@@ -4,4 +4,4 @@ metadata:
   name: app-config
   namespace: {{ .Values.common.namespace }}
 data:
-  PYTHONUNBUFFERED: {{ .Values.todoapp.configs.PYTHONUNBUFFERED }}
+  PYTHONUNBUFFERED: {{ .Values.todoapp.configs.PYTHONUNBUFFERED | quote }}
